@@ -131,6 +131,12 @@ cd frontend
 npm run dev
 ```
 
+In a third terminal, start the queue worker to process background jobs:
+
+```bash
+php artisan queue:work
+```
+
 The application should now be available at `http://localhost:8000`.
 
 ## Development
