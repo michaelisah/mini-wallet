@@ -6,7 +6,7 @@
   <img src="https://pinia.vuejs.org/logo.svg" alt="Pinia" height="80">
 </p>
 
-A modern, full-stack wallet application built with Laravel 10, Vue 3, and Pinia. This application allows users to send and receive money, view transaction history, and manage their account with real-time updates.
+A modern, full-stack wallet application built with Laravel 12, Vue 3, and Pinia. This application allows users to send and receive money, view transaction history, and manage their account with real-time updates.
 
 ## Features
 
@@ -31,7 +31,7 @@ A modern, full-stack wallet application built with Laravel 10, Vue 3, and Pinia.
 ## Tech Stack
 
 ### Backend
-- Laravel 10.x
+- Laravel 12.x
 - Laravel Sanctum for API authentication
 - Laravel Echo for real-time events
 - SQLite (can be configured to use MySQL/PostgreSQL)
