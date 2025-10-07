@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'transaction' => [
+        /*
+        | Transaction Fee Percentage:
+        |
+        | This value determines the percentage fee charged on each transaction.
+        | For example, a value of 1.5 means a 1.5% fee will be charged.
+        */
+        'fee_percentage' => env('TRANSACTION_FEE_PERCENTAGE', 1.5),
+    ],
+
 ];
