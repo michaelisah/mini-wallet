@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\MoneyTransferred;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -101,6 +102,9 @@ class TransactionService
                 'sender_id' => $sender->id,
                 'recipient_id' => $recipient->id
             ]);
+
+            // Dispatch the MoneyTransferred event
+            event(new MoneyTransferred($transaction));
 
             return $transaction;
         });
