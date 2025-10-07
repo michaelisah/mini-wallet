@@ -17,6 +17,17 @@ A modern, full-stack wallet application built with Laravel 10, Vue 3, and Pinia.
 - 📊 Transaction history with filtering and pagination
 - 📱 PWA ready
 
+## Screenshots
+
+### Dashboard View
+![Dashboard View](/screenshots/Screenshot%202025-10-07%20at%2019.35.05.png)
+
+### Transactions View
+![Transactions View](/screenshots/Screenshot%202025-10-07%20at%2019.35.19.png)
+
+### Transfer Form
+![Transfer Form](/screenshots/Screenshot%202025-10-07%20at%2020.12.09.png)
+
 ## Tech Stack
 
 ### Backend
