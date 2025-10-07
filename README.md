@@ -1,52 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Mini Wallet Application
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://laravel.com/img/logomark.min.svg" alt="Laravel" height="80">
+  <img src="https://vuejs.org/images/logo.png" alt="Vue.js" height="80" style="margin: 0 20px">
+  <img src="https://pinia.vuejs.org/logo.svg" alt="Pinia" height="80">
 </p>
 
-## About Laravel
+A modern, full-stack wallet application built with Laravel 10, Vue 3, and Pinia. This application allows users to send and receive money, view transaction history, and manage their account with real-time updates.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 💰 Send and receive money between users
+- 🔒 Secure authentication with Laravel Sanctum
+- ⚡ Real-time transaction updates with Laravel Echo and Pusher
+- 📱 Responsive design with Tailwind CSS
+- 📊 Transaction history with filtering and pagination
+- 📱 PWA ready
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Tech Stack
 
-## Learning Laravel
+### Backend
+- Laravel 10.x
+- Laravel Sanctum for API authentication
+- Laravel Echo for real-time events
+- SQLite (can be configured to use MySQL/PostgreSQL)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Frontend
+- Vue 3 with Composition API
+- Vue Router for navigation
+- Pinia for state management
+- Axios for HTTP requests
+- Tailwind CSS for styling
+- Headless UI for accessible components
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Prerequisites
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Before you begin, ensure you have the following installed:
 
-## Laravel Sponsors
+- PHP 8.1 or higher
+- Composer (PHP package manager)
+- Node.js 16.x or higher
+- npm or Yarn
+- SQLite (or MySQL/PostgreSQL if you prefer)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Getting Started
 
-### Premium Partners
+### 1. Clone the repository
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+git clone https://github.com/yourusername/mini-wallet.git
+cd mini-wallet
+```
+
+### 2. Install PHP Dependencies
+
+```bash
+composer install
+```
+
+### 3. Install JavaScript Dependencies
+
+```bash
+cd frontend
+npm install
+cd ..
+```
+
+### 4. Environment Setup
+
+Copy the example environment file and generate an application key:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Update the `.env` file with your database and Pusher credentials:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=/absolute/path/to/your/database.sqlite
+
+# For real-time features
+BROADCAST_DRIVER=pusher
+PUSHER_APP_ID=your_pusher_app_id
+PUSHER_APP_KEY=your_pusher_key
+PUSHER_APP_SECRET=your_pusher_secret
+PUSHER_APP_CLUSTER=your_pusher_cluster
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+```
+
+### 5. Database Setup
+
+Create the SQLite database file:
+
+```bash
+touch database/database.sqlite
+```
+
+Run migrations and seed the database:
+
+```bash
+php artisan migrate --seed
+```
+
+### 6. Build Frontend Assets
+
+Build the frontend assets with Vite:
+
+```bash
+cd frontend
+npm run build
+cd ..
+```
+
+### 7. Start the Development Servers
+
+In one terminal, start the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+In another terminal, start the Vite development server:
+
+```bash
+cd frontend
+npm run dev
+```
+
+The application should now be available at `http://localhost:8000`.
+
+## Development
+
+### Running Tests
+
+To run the PHP tests:
+
+```bash
+php artisan test
+```
+
+### Code Style
+
+This project uses Laravel Pint for code style fixing:
+
+```bash
+composer pint
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `APP_ENV` | Application environment | `local` |
+| `APP_DEBUG` | Enable debug mode | `true` in local |
+| `APP_URL` | Application URL | `http://localhost:8000` |
+| `DB_CONNECTION` | Database connection | `sqlite` |
+| `BROADCAST_DRIVER` | Broadcast driver | `pusher` |
+
+## API Documentation
+
+API documentation is available at `/api/documentation` when running the application locally.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Contributions are welcome! Please read the [contributing guide](CONTRIBUTING.md) before submitting pull requests.
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
 
 ## Code of Conduct
 
