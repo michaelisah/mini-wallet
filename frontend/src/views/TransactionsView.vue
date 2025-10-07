@@ -315,9 +315,12 @@
 
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useTransactionStore } from '@/stores/transaction';
 import { useAuthStore } from '@/stores/auth';
 
+const route = useRoute();
+const router = useRouter();
 const authStore = useAuthStore();
 const transactionStore = useTransactionStore();
 
@@ -326,12 +329,12 @@ const isLoading = ref(true);
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
-// Filters
+// Initialize filters with query parameters
 const filters = ref({
-  type: null, // 'sent' or 'received'
-  dateRange: 'all', // 'all', 'today', 'week', 'month', 'year'
-  status: null, // 'completed', 'pending', 'failed'
-  search: ''
+  type: route.query.type || null, // 'sent' or 'received'
+  dateRange: route.query.dateRange || 'all', // 'all', 'today', 'week', 'month', 'year'
+  status: route.query.status || null, // 'completed', 'pending', 'failed'
+  search: route.query.search || ''
 });
 
 // Sorting
@@ -340,15 +343,76 @@ const sort = ref({
   direction: 'desc' // 'asc' or 'desc'
 });
 
-// Fetch transactions on component mount
-onMounted(async () => {
+// Watch for filter changes and update URL
+watch(
+  () => filters.value,
+  (newFilters) => {
+    // Update URL with the new filters
+    const query = { ...route.query };
+    
+    // Only add non-default values to the query
+    if (newFilters.type) query.type = newFilters.type;
+    else delete query.type;
+    
+    if (newFilters.dateRange !== 'all') query.dateRange = newFilters.dateRange;
+    else delete query.dateRange;
+    
+    if (newFilters.status) query.status = newFilters.status;
+    else delete query.status;
+    
+    if (newFilters.search) query.search = newFilters.search;
+    else delete query.search;
+    
+    // Update URL without triggering navigation
+    router.replace({ query });
+    
+    // Fetch transactions with the updated filters
+    fetchTransactions();
+  },
+  { deep: true }
+);
+
+// Watch for route query changes
+watch(
+  () => route.query,
+  (newQuery) => {
+    // Update filters when URL query changes
+    filters.value = {
+      type: newQuery.type || null,
+      dateRange: newQuery.dateRange || 'all',
+      status: newQuery.status || null,
+      search: newQuery.search || ''
+    };
+  },
+  { immediate: true }
+);
+
+// Fetch transactions with current filters
+const fetchTransactions = async () => {
   try {
-    await transactionStore.fetchTransactions();
+    isLoading.value = true;
+    
+    // Prepare query parameters
+    const query = {
+      page: currentPage.value,
+      ...(filters.value.type && { is_sent: filters.value.type === 'sent' }),
+      ...(filters.value.status && { status: filters.value.status }),
+      ...(filters.value.search && { search: filters.value.search }),
+      sort_by: sort.value.column,
+      sort_order: sort.value.direction
+    };
+    
+    await transactionStore.fetchTransactions(query);
   } catch (error) {
     console.error('Error fetching transactions:', error);
   } finally {
     isLoading.value = false;
   }
+};
+
+// Initial fetch
+onMounted(() => {
+  fetchTransactions();
 });
 
 // Apply filters and sorting to transactions
